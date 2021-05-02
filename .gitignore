@@ -1,0 +1,8 @@
+.history
+.vscode
+__pycache__
+.venv
+*tfstate
+*tfstate.backup
+.terraform
+.terraform.lock.hcl
