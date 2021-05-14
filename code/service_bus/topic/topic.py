@@ -17,7 +17,7 @@ az servicebus namespace authorization-rule keys list \
 
 from azure.servicebus import ServiceBusClient, ServiceBusMessage
 
-CONNSTR = "Endpoint=sb://svcbusns.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=LOj0a+3oQvCbZPX+twC69qMQ9YlAKLcrERapzgsf36c="
+CONNSTR = ""
 TOPIC_NAME = "svcbustopic"
 SUBSCRIPTION_1 = "sbcbustopicsub1"
 SUBSCRIPTION_2 = "sbcbustopicsub2"

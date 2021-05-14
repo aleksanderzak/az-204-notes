@@ -1,4 +1,14 @@
+# Why use queues?
+
+A queue increases resiliency by temporarily storing waiting messages. At times
+of low or normal demand, the size of the queue remains small because the
+destination component removes messages from the queue faster than they are
+added. At times of high demand, the queue may increase in size, but messages are
+not lost. The destination component can catch up and empty the queue as demand
+returns to normal.
+
 # Events vs messages
+
 
 **Message** 
 
@@ -18,7 +28,8 @@
 * lightweight notification
 * often ephemeral, might not be handled
 
-**Azure Queue Storage**
+
+# **Azure Queue Storage**
 
 Queue storage is a service that uses Azure Storage to store large numbers of
 messages that can be securely accessed from anywhere in the world using a simple
@@ -30,9 +41,42 @@ the queue. If your requiremenrs are simple and you want to wrtie code as quickly
 as possible, a storage queue may the best option. Otherwise, Service Bus queues
 provide many more options and flexibility. 
 
+- A single queue can be up to 500 TB in size, so it can potentially store
+  millions of messages. 
+- The target throughput for a single queue is 2000 messages per second
 - message must be smaller than 64KB
 
-**Azure Service Bus**
+Use Azure Queue Storage:
+1. Create a storage account - contains all of your Azure Storage data objects: blobs, files, queues, tables and disks. It provides a unique namespace for your Azure Storage data accessible from anywhere in the world over HTTP. For queues it must be Azure general-purpose storage account, can't be blob storage acc.
+2. Create a storage queue.
+3. 
+
+Access authorization:
+- azure active directory
+- shared key == account key, Every storage account has two of these keys that
+  can be passed with each request to authenticate access. Using this approach is
+  like using a root password - it provides full access to the storage account
+- shared access signature - A shared access signature (SAS) is a generated URI
+  that grants limited access to objects in your storage account to clients. You
+  can restrict access to specific resources, permissions, and scope to a data
+  range to automatically turn off access after a period of time.
+
+Accessing queues:
+- REST API: http://<storage account>.queue.core.windows.net/<queue name>. An
+  Authorization header must be included with every request. The value can be any
+  of the three authorization styles.
+
+After the receiver gets a message, that message remains in the queue but is
+invisible for 30 seconds. If the receiver crashes or experiences a power failure
+during processing, then it will never delete the message from the queue. After
+30 seconds, the message will reappear in the queue and another instance of the
+receiver can process it to completion (receiver must call DELETE).
+
+a common pattern for queue creation: the sender application should always be
+responsible for creating the queue. This keeps your application more
+self-contained and less dependent on administrative set-up.
+
+# **Azure Service Bus**
 
 Service Bus is a message broker system intended for enterprise applications.
 These apps often utilize multiple communication protocols, have different data
@@ -73,11 +117,11 @@ segment but separated by network security devices.
 
 Use Azure Service Bus:
 1. Create a Service Bus namespace - container with a unique fully qualified domain name, for queues, topics, and relays.
-2a. Create a queue
-2b. Create a topic
-3b. Create a subscription
+2. Create a queue
+3. Create a topic and a subscription
+4. Use sdk for coding
 
-**Azure Event Grid**
+# **Azure Event Grid**
 
 Azure Event Grid is a fully-managed event routing service running on top of
 Azure Service Fabric. Event Grid distributes events from different sources, such
@@ -99,7 +143,7 @@ Use Event Grid when you need these features:
 * Pay-per-event: Pay only for the number of events that you transmit.
 
 
-**Azure Event Hub**
+# **Azure Event Hub**
 
 Event Hubs is an intermediary for the publish-subscribe communication pattern.
 Unlike Event Grid, however, it is optimized for extremely high throughput, a
@@ -112,6 +156,3 @@ Choose Event Hubs if:
 * You need to save a stream of events to Data Lake or Blob storage.
 * You need aggregation or analytics on your event stream.
 * You need reliable messaging or resiliency.
-
-
-// try azure event grid. 
