@@ -128,7 +128,7 @@ Azure Service Fabric. Event Grid distributes events from different sources, such
 as Azure Blob storage accounts or Azure Media Services, to different handlers,
 such as Azure Functions or Webhooks. Event Grid was created to make it easier to
 build event-based and serverless applications on Azure. Knative Eventing, Argo
-Events equivalent.
+Events equivalent. Fire and forget.
 
 Use Event Grid when you need these features:
 
@@ -156,3 +156,18 @@ Choose Event Hubs if:
 * You need to save a stream of events to Data Lake or Blob storage.
 * You need aggregation or analytics on your event stream.
 * You need reliable messaging or resiliency.
+
+Event publishers are any app or device that can send out events using either
+**HTTPS** or **Advanced Message Queuing Protocol (AMQP) 1.0**. For publishers
+that send data frequently, **AMQP** has better performance. However, it has a
+higher initial session overhead, because a persistent bidirectional socket and
+transport-level security (TLS) or SSL/TLS has to be set up first. For more
+intermittent publishing, **HTTPS** is the better option. Though HTTPS requires
+additional overhead for each request, there isn't the session initialization
+overhead.
+
+Use:
+1. Define the Event Hubs namespace (containing entity for managing one or more
+   Event Hubs) 
+2. Create an Event Hub in that namespace (partition count, message retention)
+

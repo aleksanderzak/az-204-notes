@@ -41,3 +41,7 @@ application always remains running as the Azure platform undergoes periodic
 maintenance. The order of update domains being rebooted may not proceed
 sequentially during planned maintenance, but only one update domain is rebooted
 at a time.
+
+ # Secure the network
+
+ 
